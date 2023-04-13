@@ -60,7 +60,7 @@ userroute.post("/login",async(req,res)=>{
                     
                     const token=jwt.sign({ id: user[0]._id }, 'auth');
 
-                    res.send({msg:"Login successful",token:token,name:user[0].name,admin:user.isAdmin})
+                    res.send({msg:"Login successful",token:token,name:user[0].name,admin:user[0].isAdmin || false})
                 }
                 else{
                     res.send({msg:"Wrong credentials"});
@@ -69,11 +69,11 @@ userroute.post("/login",async(req,res)=>{
 
         }
         else{
-            res.send("please login first");
+            res.send({msg:"please login first"});
         }
     }
     catch(err){
-        res.send(err);
+        res.send({msg:"something went wrong try again"});
     }
 })
 

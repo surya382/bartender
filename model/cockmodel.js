@@ -8,7 +8,7 @@ const cockSchema=mongoose.Schema({
     name:{type:String,required:true},
     base:{type:String,required:true},
     ingredients:{type:String,required:true},
-    origin:{type:String,required:true},
+    glasswares:{type:String,required:true},
     recipe:{type:Array,required:true},
     recipeBy:{type:String,required:true},
     price:{type:Number,required:true}

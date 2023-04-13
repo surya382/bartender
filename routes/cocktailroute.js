@@ -10,89 +10,94 @@ const cocktailroute=express.Router();
 cocktailroute.get("/",async(req,res)=>{
 
     const {page,sort,filt,q}=req.query;
+    
 
     try{
  
 
-        if(page!=="" && sort!=="" && filt!=="" && q!==""){
+        if(page && sort && filt && q){
 
             let val=sort=="asc"?1:-1;
 
 
             let s=(Number(page))*10;
-            let data=await Drink.find({$and:[{base:filt},{name:{$regex:`${q}`}}]}).sort({price:val}).skip(s).limit(10);
+            let data=await Drink.find({$and:[{base:filt},{name:{$regex:`${q}`}}]}).sort({price:val}).skip(s-10).limit(10);
             res.send(data);
 
 
         }
 
-        else if(page!=="" && sort!=="" && q!==""){
+        else if(page && sort && q){
 
             let val=sort=="asc"?1:-1;
 
 
             let s=(Number(page))*10;
-            let data=await Drink.find({name:{$regex:`${q}`}}).sort({price:val}).skip(s).limit(10);
+            let data=await Drink.find({name:{$regex:`${q}`}}).sort({price:val}).skip(s-10).limit(10);
             res.send(data);
 
         }
 
 
-        else if(page!=="" && filt!=="" && q!==""){
+        else if(page && filt && q){
 
             let s=(Number(page))*10;
-            let data=await Drink.find({$and:[{base:filt},{name:{$regex:`${q}`}}]}).skip(s).limit(10);
+            let data=await Drink.find({$and:[{base:filt},{name:{$regex:`${q}`}}]}).skip(s-10).limit(10);
             res.send(data);
 
         }
 
-        else if(page!=="" && sort!=="" && filt!==""){
+        else if(page && sort && filt){
 
             let val=sort=="asc"?1:-1;
 
 
             let s=(Number(page))*10;
-            let data=await Drink.find({base:filt}).sort({price:val}).skip(s).limit(10);
+            let data=await Drink.find({base:filt}).sort({price:val}).skip(s-10).limit(10);
             res.send(data);
 
         }
 
-        else if(page!=="" && sort!==""){
+        else if(page && sort){
             let val=sort=="asc"?1:-1;
 
 
             let s=(Number(page))*10;
-            let data=await Drink.find().sort({price:val}).skip(s).limit(10);
+            let data=await Drink.find().sort({price:val}).skip(s-10).limit(10);
             res.send(data);
 
         }
 
 
 
-        else if(page!=="" &&  q!==""){
+        else if(page &&  q){
 
             let s=(Number(page))*10;
 
-            let data=await Drink.find({name:{$regex:`${q}`}}).skip(s).limit(10);
+            let data=await Drink.find({name:{$regex:`${q}`}}).skip(s-10).limit(10);
             res.send(data);
 
         }
 
-        else if(page!=="" && filt!==""){
+        else if(page && filt){
 
             let s=(Number(page))*10;
-            let data=await Drink.find({base:filt}).skip(s).limit(10);
+            let data=await Drink.find({base:filt}).skip(s-10).limit(10);
             res.send(data);
-
+                 
         }
 
-        else{
+        
+             else{
+                
+                let s=(Number(page))*10;
+                let data=await Drink.find().skip(s-10).limit(10);
+                res.send(data);
+             }
+            
+          
 
-            let s=(Number(page))*10;
-            let data=await Drink.find().skip(s).limit(10);
-            res.send(data);
-
-        }
+       
 
 
     }
@@ -101,6 +106,20 @@ cocktailroute.get("/",async(req,res)=>{
     }
 })
 
+cocktailroute.get("/:id",async(req,res)=>{
+
+      let id=req.params.id;
+
+    try{
+
+   let data=await Drink.findById(id);
+   res.send(data);
+
+    }
+    catch(err){
+        console.log(err);
+    }
+})
 
 cocktailroute.use(admin);
 
