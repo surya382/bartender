@@ -158,6 +158,7 @@ cocktailroute.patch("/:id",async(req,res)=>{
 cocktailroute.delete("/:id",async(req,res)=>{
 
     const id=req.params.id;
+    console.log(id);
 
     try{
 
